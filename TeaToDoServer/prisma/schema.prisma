@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model full_tasks {
+  full_task_id  String      @id(map: "pl_full_tasks_full_task_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  text          String
+  name          String      @db.VarChar(64)
+  state         task_state  @default(inProgress)
+  created_at    DateTime    @default(now()) @db.Date
+  task_group_id String      @db.Uuid
+  task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_full_tasks_task_groups")
+}
+
+model quotes {
+  quote_id      String      @id(map: "pl_quotes_quote_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  text          String
+  created_at    DateTime    @default(now()) @db.Date
+  task_group_id String      @db.Uuid
+  task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_quotes_task_groups")
+}
+
+model refresh_tokens {
+  token_id      String @id(map: "pk_tokens_token_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  refresh_token String @unique
+  user_id       String @unique @db.Uuid
+  users         users  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_tokens_users")
+}
+
+model task_groups {
+  task_group_id String       @id(map: "pk_task_groups_task_group_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String       @db.VarChar(64)
+  user_id       String       @db.Uuid
+  full_tasks    full_tasks[]
+  quotes        quotes[]
+  users         users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_task_groups_users")
+  tasks         tasks[]
+  thoughts      thoughts[]
+}
+
+model tasks {
+  task_id       String      @id(map: "pl_tasks_task_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  text          String
+  state         task_state  @default(inProgress)
+  created_at    DateTime    @default(now()) @db.Date
+  task_group_id String      @db.Uuid
+  task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_tasks_task_groups")
+}
+
+model thoughts {
+  thought_id    String      @id(map: "pl_thoughts_thought_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  emoji         String      @db.Char(1)
+  text          String
+  created_at    DateTime    @default(now()) @db.Date
+  task_group_id String      @db.Uuid
+  task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_quotes_task_groups")
+}
+
+model users {
+  user_id         String          @unique @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email           String          @unique @db.VarChar(254)
+  password        String
+  nickname        String          @db.VarChar(64)
+  activation_link String          @unique
+  is_activated    Boolean         @default(false)
+  avatar_url      String?         @unique
+  refresh_tokens  refresh_tokens?
+  task_groups     task_groups[]
+
+  @@index([email], map: "index_users_email")
+}
+
+enum task_state {
+  inProgress
+  completed
+  marked
+}
