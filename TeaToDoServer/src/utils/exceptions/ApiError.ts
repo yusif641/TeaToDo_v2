@@ -1,10 +1,12 @@
-import type { ZodError } from "zod/v4";
+import type { ValidationError } from "zod-validation-error";
+
+type ApiErrors = ValidationError | string[] | null;
 
 class ApiError extends Error {
     public status: number;
-    public errors: ZodError | null;
+    public errors: ApiErrors;
 
-    constructor(message: string, status: number, errors: ZodError | null = null) {
+    constructor(message: string, status: number, errors: ApiErrors = null) {
         super(message);
 
         this.status = status;
@@ -15,7 +17,7 @@ class ApiError extends Error {
         throw new ApiError("User is unauthorized", 401);
     };
 
-    public static BadRequest(message: string, errors: ZodError | null = null) {
+    public static BadRequest(message: string, errors: ApiErrors = null) {
         throw new ApiError(message, 400, errors);
     };
 

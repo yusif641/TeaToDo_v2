@@ -4,6 +4,7 @@ import { CLIENT_URL, PORT } from "./config/constants";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./utils/middlewares/errorMiddleware";
 import path from "path";
+import router from "./routes/routes";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors({
     origin: CLIENT_URL
 }));
 app.use(cookieParser());
+app.use("/api/v1", router);
 app.use(errorMiddleware);
 
 app.listen(PORT, (err) => {

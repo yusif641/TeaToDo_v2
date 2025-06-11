@@ -7,10 +7,13 @@
     "dev": "bun --watch ./src/index.ts"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/bun": "latest",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.18",
-    "@types/express": "^5.0.2"
+    "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/nodemailer": "^6.4.17"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -28,6 +31,7 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "uuid": "^11.1.0",
-    "zod": "^3.25.55"
+    "zod": "^3.25.55",
+    "zod-validation-error": "^3.4.1"
   }
 }
