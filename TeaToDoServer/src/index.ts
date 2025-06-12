@@ -1,21 +1,20 @@
 import express from "express";
 import cors from "cors";
-import { CLIENT_URL, PORT } from "./config/constants";
+import { CLIENT_URL, PATHS, PORT } from "./config/constants";
 import cookieParser from "cookie-parser";
 import { errorMiddleware } from "./utils/middlewares/errorMiddleware";
-import path from "path";
 import router from "./routes/routes";
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.resolve(__dirname, 'assets')))
 app.use(cors({
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     origin: CLIENT_URL
 }));
 app.use(cookieParser());
+app.use(`/${PATHS.AVATAR_PATH}`, express.static(PATHS.AVATAR_PATH));
 app.use("/api/v1", router);
 app.use(errorMiddleware);
 

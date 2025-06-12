@@ -28,3 +28,10 @@ export const TOKENS = {
     REFRESH_TOKEN_COOKIE,
     REFRESH_TOKEN_MAX_AGE
 };
+
+// paths
+const AVATAR_PATH = "assets/avatars/";
+
+export const PATHS =  {
+    AVATAR_PATH
+};

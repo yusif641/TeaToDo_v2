@@ -33,14 +33,16 @@ model refresh_tokens {
 }
 
 model task_groups {
-  task_group_id String       @id(map: "pk_task_groups_task_group_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name          String       @db.VarChar(64)
-  user_id       String       @db.Uuid
-  full_tasks    full_tasks[]
-  quotes        quotes[]
-  users         users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_task_groups_users")
-  tasks         tasks[]
-  thoughts      thoughts[]
+  task_group_id  String       @id(map: "pk_task_groups_task_group_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name           String       @db.VarChar(64)
+  user_id        String       @db.Uuid
+  icon           String?      @db.Char(1)
+  background_url String?
+  full_tasks     full_tasks[]
+  quotes         quotes[]
+  users          users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_task_groups_users")
+  tasks          tasks[]
+  thoughts       thoughts[]
 }
 
 model tasks {

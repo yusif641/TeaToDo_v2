@@ -6,7 +6,13 @@ export type TokenPayload = {
     user_id: string,
     email: string,
     is_activated: boolean
-};
+}
+
+export type Token = {
+    payload: TokenPayload,
+    iat: number,
+    exp: number
+}
 
 class TokenSerivce {
     async saveToken(refreshToken: string, userId: string) {
