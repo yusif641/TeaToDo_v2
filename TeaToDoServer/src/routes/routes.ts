@@ -4,6 +4,7 @@ import userRouter from "./userRoutes";
 import taskGroupesRouter from "./taskGroupesRoutes";
 import quotesRouter from "./quotesRouter";
 import taskRouter from "./tasksRoutes";
+import thoughtsRouter from "./thoughtsRoutes";
 
 const router = Router();
 
@@ -12,5 +13,6 @@ router.use(userRouter);
 router.use(taskGroupesRouter);
 router.use(quotesRouter);
 router.use(taskRouter);
+router.use(thoughtsRouter);
 
 export default router;
