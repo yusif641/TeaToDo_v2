@@ -30,8 +30,8 @@ export const TOKENS = {
 };
 
 // paths
-const AVATAR_PATH = "assets/avatars/";
+const IMAGE_PATHS = "assets/";
 
-export const PATHS =  {
-    AVATAR_PATH
+export const PATHS = {
+    IMAGE_PATHS
 };

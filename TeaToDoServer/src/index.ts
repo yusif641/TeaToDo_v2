@@ -14,7 +14,7 @@ app.use(cors({
     origin: CLIENT_URL
 }));
 app.use(cookieParser());
-app.use(`/${PATHS.AVATAR_PATH}`, express.static(PATHS.AVATAR_PATH));
+app.use(`/${PATHS.IMAGE_PATHS}`, express.static(PATHS.IMAGE_PATHS));
 app.use("/api/v1", router);
 app.use(errorMiddleware);
 

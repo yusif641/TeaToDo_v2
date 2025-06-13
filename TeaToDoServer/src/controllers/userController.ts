@@ -25,7 +25,7 @@ const userController = {
             if (!file) throw ApiError.BadRequest("File is required");
 
             const userId = req.user?.user_id!;
-            const fileName = PATHS.AVATAR_PATH + req.file?.filename;
+            const fileName = PATHS.IMAGE_PATHS + req.file?.filename;
             const userData = await UserService.addAvatar(userId, fileName);
 
             res.status(200).json(userData);

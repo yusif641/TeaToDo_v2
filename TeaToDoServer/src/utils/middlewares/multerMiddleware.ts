@@ -4,7 +4,7 @@ import type { Request } from "express";
 
 const storage = multer.diskStorage({
     destination(req, res, cb) {
-        cb(null, PATHS.AVATAR_PATH);
+        cb(null, PATHS.IMAGE_PATHS);
     },
     filename(req, file, cb) {
         cb(null, new Date().toISOString().replace(/:/g, '-') + "-" + file.originalname);
