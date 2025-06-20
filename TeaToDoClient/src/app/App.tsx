@@ -6,6 +6,7 @@ import { Verify } from "@/pages/verify";
 import { Activate } from "@/pages/activate";
 import { SignIn } from "@/pages/sign-in";
 import { SignUp } from "@/pages/sign-up";
+import Home from "@/pages/home/ui/home-ui";
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/activate" element={<Activate />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/home" element={<Home />} />
       </Routes>
       <ReactQueryDevtools />
     </div>
