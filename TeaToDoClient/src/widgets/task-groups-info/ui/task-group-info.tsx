@@ -7,7 +7,7 @@ import { Thought } from '@/entities/thought';
 
 const TaskGroupInfo: React.FC = () => {
     return (
-        <div className=''>
+        <div>
             <div className="-z-3 w-full max-h-40 overflow-hidden">
                 <img src={banner} className='w-full translate-y-[-50%]' alt="" />
             </div>
@@ -17,7 +17,7 @@ const TaskGroupInfo: React.FC = () => {
                         <div className='text-7xl -ml-4'>❤️‍🔥</div>
                         <div className='text-5xl font-bold mt-7'>TaskGroup</div>
                     </div>
-                    <div className="">
+                    <div>
                         <Task />
                         <FullTask />
                         <Quote />

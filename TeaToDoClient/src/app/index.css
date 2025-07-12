@@ -112,31 +112,45 @@
 }
 
 body {
-    font-family: "Inter";
-    color: #E5E5E5;
-    font-size: 16px;
-    font-weight: 500;
-    background-color: #0A0A0A;
+  font-family: "Inter";
+  color: #E5E5E5;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #0A0A0A;
+  overflow-x: hidden;
 }
 
 ._container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0px 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0px 15px;
 }
 
 .main-color {
-    color: #272828;
+  color: #272828;
 }
 
 .third-color {
-    color:#989A99;
+  color: #989A99;
+}
+
+.wrap {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
