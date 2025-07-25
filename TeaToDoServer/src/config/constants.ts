@@ -2,6 +2,7 @@
 export const PORT = process.env.PORT || 3001;
 export const CLIENT_URL = process.env.CLIENT_URL;
 export const SERVER_URL = process.env.SERVER_URL;
+export const ACTIVATE_URL = process.env.ACTIVATE_URL;
 
 // smtp
 const SMTP_HOST = process.env.SMTP_HOST as string;

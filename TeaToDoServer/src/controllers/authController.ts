@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import type { UserAuth } from "../utils/validation/authValidation";
 import AuthService from "../services/AuthService";
-import { CLIENT_URL, TOKENS } from "../config/constants";
+import { ACTIVATE_URL, CLIENT_URL, TOKENS } from "../config/constants";
 
 const authController = {
     async register(req: Request, res: Response, next: NextFunction) {
@@ -33,7 +33,7 @@ const authController = {
                 httpOnly: true,
             });
 
-            res.status(201).json({
+            res.status(200).json({
                 user: userData.user,
                 accessToken: userData.tokens.accessToken
             });
@@ -64,7 +64,7 @@ const authController = {
                 httpOnly: true,
             });
 
-            res.status(201).json({
+            res.status(200).json({
                 user: userData.user,
                 accessToken: userData.tokens.accessToken
             });
@@ -78,7 +78,7 @@ const authController = {
             const link = req.params.link;
             await AuthService.activatte(link);
 
-            res.status(200).redirect(CLIENT_URL as string);
+            res.status(200).redirect(ACTIVATE_URL as string);
         } catch (error) {
             next(error);
         }
