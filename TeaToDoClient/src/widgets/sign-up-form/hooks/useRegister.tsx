@@ -18,8 +18,10 @@ export const useRegister = (checked: boolean) => {
             setIsActivated(data.data.user.is_activated);
 
             localStorage.setItem("token", data.data.accessToken);
-
-        }
+        },
+        onError(error) {
+            toast.error((error as ErrorResponse).response.data.message);
+        },
     });
 
     const onSubmit = (data: signUpFields) => {
@@ -36,11 +38,6 @@ export const useRegister = (checked: boolean) => {
                 email: data.email,
                 password: data.password
             });
-
-            if (registerMutation.isError) {
-                const error = registerMutation.error as ErrorResponse;
-                toast.error(error.response.data.message);
-            }
         } catch (error) {
             toast.error("Something went wrong, try again later");
         };

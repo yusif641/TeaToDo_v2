@@ -20,7 +20,10 @@ export const useLogin = (checked: boolean) => {
             localStorage.setItem("token", data.data.accessToken);
 
             navigate("/home");
-        }
+        },
+        onError(error) {
+            toast.error((error as ErrorResponse).response.data.message);
+        },
     });
 
     const onSubmit = (data: signInFields) => {
@@ -33,11 +36,6 @@ export const useLogin = (checked: boolean) => {
                 email: data.email,
                 password: data.password
             });
-
-            if (loginMutation.isError) {
-                const error = loginMutation.error as ErrorResponse;
-                toast.error(error.response.data.message);
-            }
         } catch (error) {
             toast.error("Something went wrong, try again later");
         };

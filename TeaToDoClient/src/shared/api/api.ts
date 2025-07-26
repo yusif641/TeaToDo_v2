@@ -25,6 +25,7 @@ const $api = axios.create({
     baseURL: API_URL
 });
 
+let isRetry = false;
 
 export const refresh = () => {
     return $api.get<RefreshResponce>(REFRESH_ENDPOINT);
@@ -41,18 +42,20 @@ $api.interceptors.response.use((config) => {
 }, async (error: AxiosError) => {
     const originalRequest = error.config;
 
-    if (error.response?.status == 401 && error.config && !error.config.headers['X-Retry-Attempt']) {
-        error.config.headers['X-Retry-Attempt'] = 'true'; 
+    if (error.response?.status == 401 && originalRequest && !isRetry) {
+        isRetry = true
 
         try {
             const responce = await refresh();
             localStorage.setItem("token", responce.data.accessToken);
 
-            return $api.request(originalRequest!);
+            return $api.request(originalRequest);
         } catch (error) {
-            console.log("Unauthoarized");
+            return console.log("Unauthoarized");
         };
     };
+    
+    isRetry = false;
 
     return Promise.reject(error);
 });

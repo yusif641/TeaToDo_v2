@@ -11,7 +11,6 @@ import { Welocome } from "@/pages/welcome";
 import { authApi, useAuthStore } from "@/features/auth";
 import { useShallow } from "zustand/react/shallow";
 import { useQuery } from "@tanstack/react-query";
-import { refresh } from "@/shared/api/api";
 import { useEffect } from "react";
 import Loader from "@/shared/components/loader/ui/loader";
 
@@ -19,16 +18,16 @@ const App: React.FC = () => {
   const setIsAuth = useAuthStore(useShallow(state => state.setIsAuth));
   const setIsActivated = useAuthStore(useShallow(state => state.setIsActivated));
 
-  const { data } = useQuery({
+  const { data, isPending, isSuccess } = useQuery({
     queryKey: [authApi.baseKey, "user"],
-    queryFn: refresh,
+    queryFn: authApi.checkAuth,
     staleTime: Infinity,
     retry: false,
     select: data => data.data
   });
 
   useEffect(() => {
-    if (data) {
+    if (isSuccess) {
       setIsAuth(true);
       setIsActivated(data.user.is_activated);
 
@@ -36,7 +35,7 @@ const App: React.FC = () => {
     }
   }, [data]);
 
-  if (!data) {
+  if (isPending) {
     return <Loader />
   }
 

@@ -1,5 +1,6 @@
 import $api from "@/shared/api/api";
 import { LOGIN_ENDPOINT, REGISTER_ENDPOINT } from "../config/constants";
+import { REFRESH_ENDPOINT } from "@/shared/utils/constants";
 
 export type AuthResponse = {
     user: {
@@ -18,5 +19,7 @@ export const authApi = {
     register: (data: { email: string, password: string }) => {
         return $api.post<AuthResponse>(REGISTER_ENDPOINT, data);
     },
-
+    checkAuth: () => {
+        return $api.get<AuthResponse>(REFRESH_ENDPOINT);
+    }
 };
