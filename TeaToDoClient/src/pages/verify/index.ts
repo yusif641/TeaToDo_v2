@@ -1,3 +1,3 @@
-import Verify from "./ui/verify-ui";
+import PrivateVerify from "./ui/verify-private";
 
-export { Verify };
+export { PrivateVerify }

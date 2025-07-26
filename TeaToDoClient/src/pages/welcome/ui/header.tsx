@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from "@/shared/assets/icons/logo.svg";
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
     return (
@@ -17,9 +18,9 @@ const Header: React.FC = () => {
                     </ul>
                 </nav>
                 <div className="flex items-center gap-4">
-                    <div className="hover:underline cursor-pointer">Sign in</div>
+                    <Link to="/sign-in" className="hover:underline cursor-pointer">Sign in</Link>
                     <span>/</span>
-                    <div className="hover:underline cursor-pointer">Sign up</div>
+                    <Link to="/sign-up" className="hover:underline cursor-pointer">Sign up</Link>
                 </div>
             </div>
         </header>

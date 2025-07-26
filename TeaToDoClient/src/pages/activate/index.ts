@@ -1,3 +1,3 @@
-import Activate from "./ui/activate-ui";
+import PrivateActivate from "./ui/private-activate";
 
-export { Activate };
+export { PrivateActivate }

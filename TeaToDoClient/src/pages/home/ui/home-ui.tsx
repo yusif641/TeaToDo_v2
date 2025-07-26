@@ -9,8 +9,8 @@ const Home: React.FC = () => {
             <HomeSidebar />
             <main className='w-full overflow-y-hidden relative'>
                 <SidebarNav />
-                <TaskGroupInfo />
-                {/* <TaskGroupInfoEmpty /> */}
+                {/* <TaskGroupInfo /> */}
+                <TaskGroupInfoEmpty />
             </main>
         </SidebarProvider>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCheck } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Activate: React.FC = () => {
     return (
@@ -11,7 +12,7 @@ const Activate: React.FC = () => {
                     Your email has been confirmed and your account is now fully active. Welcome aboard!
                     You can now enjoy all the features of our service. Happy exploring!
                 </p>
-                <div className="bg-[#e5e5e5] text-[#0a0a0a] p-3 rounded-sm inline-block cursor-pointer">Go to the home</div>
+                <Link to="/home" className="bg-[#e5e5e5] text-[#0a0a0a] p-3 rounded-sm inline-block cursor-pointer">Go to the home</Link>
             </div>
         </section>
     );

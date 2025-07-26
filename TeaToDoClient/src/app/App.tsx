@@ -2,17 +2,17 @@ import type React from "react"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, Routes } from "react-router-dom";
 import { NotFound } from "@/pages/not-found";
-import { Verify } from "@/pages/verify";
-import { Activate } from "@/pages/activate";
+import { PrivateVerify } from "@/pages/verify";
+import { PrivateActivate } from "@/pages/activate";
 import { SignIn } from "@/pages/sign-in";
 import { SignUp } from "@/pages/sign-up";
-import Home from "@/pages/home/ui/home-ui";
 import { Welocome } from "@/pages/welcome";
-import { authApi, useAuthStore } from "@/features/auth";
+import { authApi, PrivateAuth, useAuthStore } from "@/features/auth";
 import { useShallow } from "zustand/react/shallow";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import Loader from "@/shared/components/loader/ui/loader";
+import { PrivateHome } from "@/pages/home";
 
 const App: React.FC = () => {
   const setIsAuth = useAuthStore(useShallow(state => state.setIsAuth));
@@ -22,7 +22,7 @@ const App: React.FC = () => {
     queryKey: [authApi.baseKey, "user"],
     queryFn: authApi.checkAuth,
     staleTime: Infinity,
-    retry: false,
+    retry: 2,
     select: data => data.data
   });
 
@@ -43,11 +43,11 @@ const App: React.FC = () => {
     <div className="wrap">
       <Routes>
         <Route path="*" element={<NotFound />} />
-        <Route path="/verify" element={<Verify />} />
-        <Route path="/activate" element={<Activate />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/verify" element={<PrivateVerify />} />
+        <Route path="/activate" element={<PrivateActivate />} />
+        <Route path="/sign-in" element={<PrivateAuth><SignIn /></PrivateAuth>} />
+        <Route path="/sign-up" element={<PrivateAuth><SignUp /></PrivateAuth>} />
+        <Route path="/home" element={<PrivateHome />} />
         <Route path="/" element={<Welocome />} />
       </Routes>
       <ReactQueryDevtools />
