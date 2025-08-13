@@ -10,12 +10,20 @@ type RefreshResponce = {
     accessToken: string
 };
 
+export type ValidationErrorResponce = {
+    details: {
+        [key: number]: {
+            message: string
+        }
+    }
+}
+
 export interface ErrorResponse extends Error {
     response: {
         data: {
             message: string,
             status: number,
-            errrors: null | string[]
+            errors: null | string[] | ValidationErrorResponce,
         }
     }
 }

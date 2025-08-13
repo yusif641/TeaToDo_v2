@@ -1,9 +1,14 @@
 import multer, { type FileFilterCallback } from "multer";
 import { PATHS } from "../../config/constants";
 import type { Request } from "express";
+import { existsSync, mkdirSync } from "fs";
 
 const storage = multer.diskStorage({
     destination(req, res, cb) {
+        if (!existsSync(`./${PATHS.IMAGE_PATHS}`)) {
+            mkdirSync(`./${PATHS.IMAGE_PATHS}`, { recursive: true });
+        }
+
         cb(null, PATHS.IMAGE_PATHS);
     },
     filename(req, file, cb) {

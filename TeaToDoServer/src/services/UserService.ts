@@ -57,7 +57,7 @@ class UserService {
 
         unlinkSync(user.avatar_url);
 
-        await prisma.users.update({
+        return await prisma.users.update({
             where: {
                 user_id: userId
             },

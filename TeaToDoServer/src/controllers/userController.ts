@@ -48,9 +48,9 @@ const userController = {
     async deleteAvatar(req: Request, res: Response, next: NextFunction) {
         try {
             const userId = req.user?.user_id!;
-            await UserService.removeAvatar(userId);
+            const user = await UserService.removeAvatar(userId);
 
-            res.status(200);
+            res.status(200).json(user);
         } catch (error) {
             next(error);
         }

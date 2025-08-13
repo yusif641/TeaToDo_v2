@@ -13,11 +13,12 @@ export const useRegister = (checked: boolean) => {
         mutationKey: [authApi.baseKey, "user"],
         mutationFn: authApi.register,
         onSuccess(data) {
-            navigate("/verify");
             setIsAuth(true);
             setIsActivated(data.data.user.is_activated);
-
+            
             localStorage.setItem("token", data.data.accessToken);
+            
+            navigate("/verify");
         },
         onError(error) {
             toast.error((error as ErrorResponse).response.data.message);

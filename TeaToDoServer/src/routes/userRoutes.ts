@@ -10,6 +10,6 @@ const userRouter = Router();
 userRouter.get("/user", authMiddleware, userController.getUser);
 userRouter.patch("/user/nickname", authMiddleware, validate(NicknameSchema), userController.changeNickname);
 userRouter.patch("/user/avatar", authMiddleware, fileMiddleware.single("avatar"), userController.changeAvatar);
-userRouter.delete("/user/avatar", authMiddleware, userController.getUser, userController.deleteAvatar);
+userRouter.delete("/user/avatar", authMiddleware, userController.deleteAvatar);
 
 export default userRouter;
