@@ -1,27 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
     Sidebar,
-    SidebarContent,
     SidebarFooter,
-    SidebarGroup,
-    SidebarGroupContent,
     SidebarHeader,
-    SidebarMenu
 } from '@/shared/components/ui/sidebar';
 import { FaPlus } from 'react-icons/fa';
-import { TaskGroup, useTaskGroups } from '@/entities/task-group';
+import { useCreateTaskGroup } from '@/entities/task-group';
 import { User } from '@/entities/user';
-import { Skeleton } from '@/shared/components/ui/skeleton';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/components/ui/dialog';
 import { Button } from '@/shared/components/ui/button';
 import { Label } from '@/shared/components/ui/label';
 import { Input } from '@/shared/components/ui/input';
 import EmojiPicker, { Theme, type EmojiClickData } from "emoji-picker-react";
-import { useMutation } from '@tanstack/react-query';
-import { taskGroupApi } from '@/entities/task-group/api/task-group-api';
-import { queryClient } from '@/app/providers/queryClient';
-import type { ErrorResponse, ValidationErrorResponce } from '@/shared/api/api';
-import { toast } from 'react-toastify';
+import SidebarContentUI from './sidebar-content';
 
 const HomeSidebar: React.FC = () => {
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false)
@@ -29,7 +20,7 @@ const HomeSidebar: React.FC = () => {
     const [name, setName] = useState("New Task Group");
     const [icon, setIcon] = useState("🍺");
 
-    const { taskGroupsData, taskGroupsPending } = useTaskGroups();
+    const { createTaskGroup } = useCreateTaskGroup();
 
     const emojiRef = useRef<HTMLDivElement>(null);
 
@@ -47,33 +38,13 @@ const HomeSidebar: React.FC = () => {
         }
     }, [emojiRef]);
 
-    const createTaskGroupMutation = useMutation({
-        mutationKey: [taskGroupApi.baseKey, "create"],
-        mutationFn: taskGroupApi.createTaskGroup,
-        onError: (error) => {
-            const data = (error as ErrorResponse).response.data;
-
-            if ((data.errors as ValidationErrorResponce).details) {
-                toast.error((data.errors as ValidationErrorResponce).details[0].message);
-            } else {
-                toast.error(data.message);
-            }
-        },
-        onSuccess: () => {
-            toast.success("Task Group Created");
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        }
-    });
-
     const handleAddEmoji = (emoji: EmojiClickData) => {
         setIcon(emoji.emoji);
         setEmojiPickerOpen(false);
     }
 
     const handleCreateTaskGroup = () => {
-        createTaskGroupMutation.mutate({
+        createTaskGroup.mutate({
             icon,
             name
         });
@@ -130,35 +101,7 @@ const HomeSidebar: React.FC = () => {
                     </DialogContent>
                 </Dialog>
             </SidebarHeader>
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {taskGroupsPending && (
-                                <div>
-                                    {[1, 2, 3, 4, 5].map(skeleton => (
-                                        <div className="flex gap-2 px-2 py-1 items-center" key={skeleton}>
-                                            <Skeleton className='w-5 h-5 rounded-full' />
-                                            <Skeleton className='h-4 w-full' />
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                            {taskGroupsData?.map(taskGroup => (
-                                taskGroupsPending
-                                    ? (null)
-                                    : (<TaskGroup
-                                        name={taskGroup.name}
-                                        icon={taskGroup.icon!}
-                                        key={taskGroup.task_group_id}
-                                        taskGroupId={taskGroup.task_group_id}
-                                        banner={taskGroup.background_url}
-                                    />)
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
+            <SidebarContentUI />
             <SidebarFooter>
                 <User />
             </SidebarFooter>

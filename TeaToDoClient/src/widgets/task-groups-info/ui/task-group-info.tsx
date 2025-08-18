@@ -1,52 +1,21 @@
-import React, { useEffect, useRef, type ChangeEvent } from 'react';
+import React, { useRef, type ChangeEvent } from 'react';
 import { Task } from '@/entities/task';
-import { useTaskGroupStore, useTaskGroupTasks } from '@/entities/task-group';
+import { useRemoveBackground, useSelectedTaskGroup, useTaskGroupBackground, useTaskGroupStore, useTaskGroupTasks } from '@/entities/task-group';
 import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/shared/components/ui/button';
-import { useMutation } from '@tanstack/react-query';
-import { taskGroupApi } from '@/entities/task-group/api/task-group-api';
-import { toast } from 'react-toastify';
-import { queryClient } from '@/app/providers/queryClient';
-import type { ErrorResponse } from '@/shared/api/api';
 import { HOST_URL } from '@/shared/utils/constants';
 
 const TaskGroupInfo: React.FC = () => {
-    const taskGroup = useTaskGroupStore(useShallow(state => state.selectedTaskGrop));
     const taskGroupId = useTaskGroupStore(useShallow(state => state.selectedTaskGroupId));
-    const setTaskGroup = useTaskGroupStore(useShallow(state => state.setTaskGroup));
-
+    
     const { tasksData } = useTaskGroupTasks(true, taskGroupId as string);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const { selectedTaskGroup } = useSelectedTaskGroup(taskGroupId!);
 
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const selectFile = () => fileInputRef.current?.click();
 
-    const updateTaskGroupBackgroundMutation = useMutation({
-        mutationKey: [taskGroupApi.baseKey, "background"],
-        mutationFn: taskGroupApi.updateTaskGroupBackground,
-        onError: (error) => {
-            toast.error((error as ErrorResponse).response.data.message);
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        },
-        onSuccess: () => {
-            toast.success("Background changed");
-        }
-    });
-
-    const removeTaskGroupBackgroundMutation = useMutation({
-        mutationKey: [taskGroupApi.baseKey, "background"],
-        mutationFn: taskGroupApi.removeTaskGroupBackground,
-        onError: (error) => {
-            toast.error((error as ErrorResponse).response.data.message);
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        },
-        onSuccess: () => {
-            toast.success("Background deleted");
-        }
-    });
+    const { removeTaskGroupBackground } = useRemoveBackground();
+    const { updateTaskGroupBackground } = useTaskGroupBackground();
 
     const handleBackgroundUpdate = (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
@@ -55,7 +24,7 @@ const TaskGroupInfo: React.FC = () => {
             const formData = new FormData();
             formData.append('background', file);
 
-            updateTaskGroupBackgroundMutation.mutate({
+            updateTaskGroupBackground({
                 formData,
                 taskGroupId: taskGroupId!
             });
@@ -63,36 +32,16 @@ const TaskGroupInfo: React.FC = () => {
     }
 
     const handleRemoveBackground = () => {
-        removeTaskGroupBackgroundMutation.mutate(taskGroupId!);
+        removeTaskGroupBackground(taskGroupId!);
     }
-
-    useEffect(() => {
-        if (updateTaskGroupBackgroundMutation.isSuccess) {
-            setTaskGroup({
-                name: taskGroup?.name!,
-                icon: taskGroup?.icon!,
-                banner: updateTaskGroupBackgroundMutation.data?.data.background_url!
-            });
-        }
-    }, [updateTaskGroupBackgroundMutation.data]);
-
-    useEffect(() => {
-        if (removeTaskGroupBackgroundMutation.isSuccess) {
-            setTaskGroup({
-                name: taskGroup?.name!,
-                icon: taskGroup?.icon!,
-                banner: null
-            });
-        }
-    }, [removeTaskGroupBackgroundMutation.data]);
 
     return (
         <div>
             <div className="-z-3 w-full max-h-40 overflow-hidden">
-                {taskGroup?.banner
+                {selectedTaskGroup?.background_url
                     ? (
                         <div className="relative cursor-pointer hover:[&_div]:flex">
-                            <img src={`${HOST_URL}/${taskGroup?.banner}`} className='w-full translate-y-[-50%]' alt="" />
+                            <img src={`${HOST_URL}/${selectedTaskGroup?.background_url}`} className='w-full translate-y-[-50%]' alt="" />
                             <div className="w-full h-40 bg-[#131313b9] absolute top-0 hidden items-center justify-center">
                                 <Button className='cursor-pointer' onClick={handleRemoveBackground}>Remove Background</Button>
                             </div>
@@ -109,8 +58,8 @@ const TaskGroupInfo: React.FC = () => {
             <div className="flex flex-col items-center">
                 <div className="w-200">
                     <div className="-translate-y-8 mb-4">
-                        <div className='text-7xl -ml-4'>{taskGroup?.icon}</div>
-                        <div className='text-5xl font-bold mt-7'>{taskGroup?.name}</div>
+                        <div className='text-7xl -ml-4'>{selectedTaskGroup?.icon}</div>
+                        <div className='text-5xl font-bold mt-7'>{selectedTaskGroup?.name}</div>
                     </div>
                     <div>
                         {tasksData?.map(task => (

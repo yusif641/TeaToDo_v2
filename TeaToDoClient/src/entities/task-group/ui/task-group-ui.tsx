@@ -5,17 +5,14 @@ import { useTaskGroupStore } from '../models/task-group-store';
 import { useShallow } from 'zustand/react/shallow';
 import { useTaskGroupTasks } from '../hooks/useTaskGroupTasks';
 import { Input } from '@/shared/components/ui/input';
-import { useMutation } from '@tanstack/react-query';
-import { taskGroupApi, type TaskGroupResponce } from '../api/task-group-api';
-import { queryClient } from '@/app/providers/queryClient';
-import { toast } from 'react-toastify';
-import type { ErrorResponse, ValidationErrorResponce } from '@/shared/api/api';
-import type { AxiosResponse } from 'axios';
 import EmojiPicker, { Theme, type EmojiClickData } from 'emoji-picker-react';
+import { useDeleteTaskGroup } from '../hooks/useDeleteTaskGroup';
+import { useUpdateTaskGroupIcon } from '../hooks/useUpdateTaskGroupIcon';
+import { useUpdateTaskGroupName } from '../hooks/useUpdateTaskGroupName';
 
-const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string, banner: string | null }> = ({ icon, name, taskGroupId, banner }) => {
+const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> = ({ icon, name, taskGroupId }) => {
     const setTaskGroupSelectedId = useTaskGroupStore(useShallow(state => state.setSelectedTaskGroupId));
-    const setTaskGroup = useTaskGroupStore(useShallow(state => state.setTaskGroup));
+    const setSelectedToNull = useTaskGroupStore(useShallow(state => state.setSelectedToNull));
     const selectedTaskGroupId = useTaskGroupStore(useShallow(state => state.selectedTaskGroupId));
 
     const [editMode, setEditMode] = useState(false);
@@ -31,6 +28,9 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string, ban
     const iconRef = useRef<HTMLDivElement>(null);
 
     const { refetchTasks } = useTaskGroupTasks(false, taskGroupId);
+    const { deleteTaskGroup } = useDeleteTaskGroup();
+    const { updateTaskGroupIcon } = useUpdateTaskGroupIcon();
+    const { updateTaskGroupName } = useUpdateTaskGroupName();
 
     useEffect(() => {
         const handleClickOutside = (event: React.TouchEvent | MouseEvent) => {
@@ -54,104 +54,8 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string, ban
         }
     }, [dropdownRef, editRef, saveRef, emojiRef, iconRef]);
 
-    const updateTaskGroupNameMutations = useMutation({
-        mutationKey: [taskGroupApi.baseKey, "name"],
-        mutationFn: taskGroupApi.updateTaskGroupName,
-        onMutate: async (params) => {
-            await queryClient.cancelQueries({ queryKey: [taskGroupApi.baseKey] });
-
-            const previosTaskGroups: AxiosResponse<TaskGroupResponce[]> = queryClient.getQueryData([taskGroupApi.baseKey])!;
-
-            queryClient.setQueryData(
-                [taskGroupApi.baseKey],
-                () => previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, name: params.name } : taskGroup)
-            );
-
-            return { previosTaskGroups }
-        },
-        onError: (error, _, context) => {
-            queryClient.setQueryData([taskGroupApi.baseKey], context?.previosTaskGroups);
-
-            const data = (error as ErrorResponse).response.data;
-
-            if ((data.errors as ValidationErrorResponce).details) {
-                toast.error((data.errors as ValidationErrorResponce).details[0].message);
-            } else {
-                toast.error(data.message);
-            }
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        },
-        onSuccess: () => {
-            toast.success("Task Group Updated");
-        }
-    });
-
-    const deleteTaskGroupMutation = useMutation({
-        mutationFn: taskGroupApi.deleteTaskGroup,
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        },
-        onSuccess: (_, taskGroupId) => {
-            const taskGroups: AxiosResponse<TaskGroupResponce[]> = queryClient.getQueryData([taskGroupApi.baseKey])!;
-
-            if (taskGroups) {
-                queryClient.setQueryData(
-                    [taskGroupApi.baseKey],
-                    taskGroups.data.filter(item => item.task_group_id !== taskGroupId).reverse()
-                );
-
-                toast.success("Task Group Deleted");
-            }
-        },
-        onError: (error) => {
-            const data = (error as ErrorResponse).response.data;
-
-            if ((data.errors as ValidationErrorResponce).details) {
-                toast.error((data.errors as ValidationErrorResponce).details[0].message);
-            } else {
-                toast.error(data.message);
-            }
-        }
-    })
-
-    const updateTaskGroupIconMutations = useMutation({
-        mutationKey: [taskGroupApi.baseKey, "icon"],
-        mutationFn: taskGroupApi.updateTaskGroupIcon,
-        onMutate: async (params) => {
-            await queryClient.cancelQueries({ queryKey: [taskGroupApi.baseKey] });
-
-            const previosTaskGroups: AxiosResponse<TaskGroupResponce[]> = queryClient.getQueryData([taskGroupApi.baseKey])!;
-
-            queryClient.setQueryData(
-                [taskGroupApi.baseKey],
-                () => previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, icon: params.icon } : taskGroup)
-            );
-
-            return { previosTaskGroups }
-        },
-        onError: (error, _, context) => {
-            queryClient.setQueryData([taskGroupApi.baseKey], context?.previosTaskGroups);
-
-            const data = (error as ErrorResponse).response.data;
-
-            if ((data.errors as ValidationErrorResponce).details) {
-                toast.error((data.errors as ValidationErrorResponce).details[0].message);
-            } else {
-                toast.error(data.message);
-            }
-        },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey] });
-        },
-        onSuccess: () => {
-            toast.success("Task Group Icon Updated");
-        }
-    });
-
     const handleUpdateName = () => {
-        updateTaskGroupNameMutations.mutate({
+        updateTaskGroupName({
             taskGroupId,
             name: editName || name
         });
@@ -161,12 +65,6 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string, ban
 
     const handleRefetch = (event: React.MouseEvent) => {
         if (!optionsRef.current?.contains(event.target as Node)) {
-            setTaskGroup({
-                name,
-                icon,
-                banner,
-            });
-
             setTaskGroupSelectedId(taskGroupId);
             refetchTasks();
         }
@@ -179,17 +77,17 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string, ban
 
     const handleDelete = () => {
         setOpenDropdown(false);
-        deleteTaskGroupMutation.mutate(taskGroupId);
+        deleteTaskGroup(taskGroupId);
 
         if (selectedTaskGroupId == taskGroupId) {
-            setTaskGroupSelectedId(null);
+            setSelectedToNull();
         }
     }
 
     const handleUpdateIcon = (emoji: EmojiClickData) => {
         setEmojiPickerOpen(false);
 
-        updateTaskGroupIconMutations.mutate({
+        updateTaskGroupIcon({
             taskGroupId,
             icon: emoji.emoji
         });

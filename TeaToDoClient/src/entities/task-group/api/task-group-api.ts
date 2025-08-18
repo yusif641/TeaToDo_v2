@@ -42,6 +42,9 @@ export const taskGroupApi = {
     getTaskGroups: () => {
         return $api.get<TaskGroupResponce[]>(TASK_GROUP_ENDPOINT);
     },
+    getTaskGroupById: (taskGroupId: string) => {
+        return $api.get<TaskGroupResponce>(`${TASK_GROUP_ENDPOINT}/${taskGroupId}`);
+    },
     getTaskGroupTasks: (taskGroupId: string) => {
         return $api.get<TaskGroupTasksResponce>(`${TASK_GROUP_TASKS_ENDPOINT}/${taskGroupId}`);
     },
