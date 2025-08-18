@@ -12,7 +12,7 @@ model full_tasks {
   text          String
   name          String      @db.VarChar(64)
   state         task_state  @default(inProgress)
-  created_at    DateTime    @default(now()) @db.Timestamp(6)
+  created_at    DateTime    @default(now()) @db.Date
   task_group_id String      @db.Uuid
   task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_full_tasks_task_groups")
 }
@@ -20,7 +20,7 @@ model full_tasks {
 model quotes {
   quote_id      String      @id(map: "pl_quotes_quote_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   text          String
-  created_at    DateTime    @default(now()) @db.Timestamp(6)
+  created_at    DateTime    @default(now()) @db.Date
   task_group_id String      @db.Uuid
   task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_quotes_task_groups")
 }
@@ -36,8 +36,9 @@ model task_groups {
   task_group_id  String       @id(map: "pk_task_groups_task_group_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name           String       @db.VarChar(64)
   user_id        String       @db.Uuid
-  icon           String?      @db.Char(1)
+  icon           String?      @db.VarChar
   background_url String?
+  created_at     DateTime?    @default(now()) @db.Timestamp(6)
   full_tasks     full_tasks[]
   quotes         quotes[]
   users          users        @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_task_groups_users")
@@ -49,7 +50,7 @@ model tasks {
   task_id       String      @id(map: "pl_tasks_task_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   text          String
   state         task_state  @default(inProgress)
-  created_at    DateTime    @default(now()) @db.Timestamp(6)
+  created_at    DateTime    @default(now()) @db.Date
   task_group_id String      @db.Uuid
   task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_tasks_task_groups")
 }
@@ -58,7 +59,7 @@ model thoughts {
   thought_id    String      @id(map: "pl_thoughts_thought_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   emoji         String      @db.Char(1)
   text          String
-  created_at    DateTime    @default(now()) @db.Timestamp(6)
+  created_at    DateTime    @default(now()) @db.Date
   task_group_id String      @db.Uuid
   task_groups   task_groups @relation(fields: [task_group_id], references: [task_group_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_quotes_task_groups")
 }

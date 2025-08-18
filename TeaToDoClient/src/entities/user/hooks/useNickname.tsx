@@ -28,8 +28,6 @@ export const useNickname = () => {
             const data = (error as ErrorResponse).response.data;
 
             if ((data.errors as ValidationErrorResponce).details) {
-                console.log("er");
-
                 toast.error((data.errors as ValidationErrorResponce).details[0].message);
             } else {
                 toast.error(data.message);

@@ -82,9 +82,9 @@ const taskGroupController = {
     async removeTaskGroupBackground(req: Request<{ id: string }>, res: Response, next: NextFunction) {
         try {
             const taskGroupId = req.params.id;
-            await TaskGroupService.removeTaskGroupBackground(taskGroupId);
+            const taskGroup = await TaskGroupService.removeTaskGroupBackground(taskGroupId);
 
-            res.status(200);
+            res.status(200).json(taskGroup);
         } catch (error) {
             next(error);
         }

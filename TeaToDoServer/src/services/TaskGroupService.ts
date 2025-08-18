@@ -20,6 +20,9 @@ class TaskGroupService {
                 name: true,
                 icon: true,
                 background_url: true
+            },
+            orderBy: {
+                created_at: "desc"
             }
         });
 
@@ -123,9 +126,12 @@ class TaskGroupService {
 
         unlinkSync(taskGroup.background_url);
 
-        await prisma.task_groups.delete({
+        return await prisma.task_groups.update({
             where: {
                 task_group_id: taskGroupId
+            },
+            data: {
+                background_url: null
             }
         });
     }

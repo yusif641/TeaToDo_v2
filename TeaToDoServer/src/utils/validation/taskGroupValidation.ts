@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const CreateTaskGroupSchema = z.object({
-    icon: z.string().length(1, "icon should be only 1 symbol"),
+    icon: z.string(),
     name: z.string()
         .nonempty("Name is required")
         .min(2, "Name should be at least 2 characters")
@@ -16,7 +16,7 @@ export const TaskGroupNameSchema = z.object({
 });
 
 export const TaskGroupIconSchema = z.object({
-    icon: z.string().length(1, "icon should be only 1 symbol")
+    icon: z.string()
 });
 
 export type CreateTaskGroup = z.infer<typeof CreateTaskGroupSchema>;

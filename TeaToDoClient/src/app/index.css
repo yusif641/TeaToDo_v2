@@ -118,6 +118,7 @@ body {
   font-weight: 500;
   background-color: #0A0A0A;
   overflow-x: hidden;
+  pointer-events: auto !important;
 }
 
 ._container {
