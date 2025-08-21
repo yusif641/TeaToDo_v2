@@ -3,7 +3,7 @@ import { z } from "zod";
 export const TaskTextSchema = z.object({
     text: z.string()
         .nonempty("Task text can't be empty")
-        .min(2, "Task text must be at least 2 characters long"),
+        .min(1, "Task text must be at least 1 character long"),
 });
 
 export const TaskStateSchema = z.object({

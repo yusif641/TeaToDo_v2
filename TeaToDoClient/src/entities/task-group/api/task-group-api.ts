@@ -11,7 +11,7 @@ export type TaskGroupResponce = {
     background_url: string | null;
 };
 
-type TaskGroupTasksResponce = ({
+export type TaskGroupTasksResponce = ({
     task_group_id: string;
     quote_id: string;
     text: string;
@@ -45,7 +45,7 @@ export const taskGroupApi = {
     getTaskGroupById: (taskGroupId: string) => {
         return $api.get<TaskGroupResponce>(`${TASK_GROUP_ENDPOINT}/${taskGroupId}`);
     },
-    getTaskGroupTasks: (taskGroupId: string) => {
+    getTaskGroupTasks: (taskGroupId: string): Promise<AxiosResponse<TaskGroupTasksResponce>> => {
         return $api.get<TaskGroupTasksResponce>(`${TASK_GROUP_TASKS_ENDPOINT}/${taskGroupId}`);
     },
     createTaskGroup: ({ icon, name }: { icon: string, name: string }) => {

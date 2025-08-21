@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     return (
         <SidebarProvider className='relative'>
             <HomeSidebar />
-            <main className='w-full overflow-y-hidden relative'>
+            <main className='w-full overflow-y-hidden relative bg-[#121212]'>
                 <SidebarNav />
                 {selectedTaskGroupId
                     ? <TaskGroupInfo />

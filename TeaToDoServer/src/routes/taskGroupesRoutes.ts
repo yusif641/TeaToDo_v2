@@ -8,6 +8,7 @@ import { CreateTaskGroupSchema, TaskGroupIconSchema, TaskGroupNameSchema } from 
 const taskGroupesRouter = Router();
 
 taskGroupesRouter.get("/taskGroups", authMiddleware, taskGroupController.getTaskGroups);
+taskGroupesRouter.get("/taskGroups/:id", authMiddleware, taskGroupController.getTaskGroupById)
 taskGroupesRouter.get("/taskGroups/tasks/:id", authMiddleware, taskGroupController.getTaskGroupTasks);
 taskGroupesRouter.post("/taskGroups", authMiddleware, validate(CreateTaskGroupSchema), taskGroupController.createTaskGroup);
 taskGroupesRouter.patch("/taskGroups/name/:id", authMiddleware, validate(TaskGroupNameSchema), taskGroupController.updateTaskGroupName);

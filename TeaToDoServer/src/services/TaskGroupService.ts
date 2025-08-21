@@ -29,6 +29,22 @@ class TaskGroupService {
         return taskGroups;
     }
 
+    async getTaskGroupById(taskGroupId: string) {
+        const taskGroup = await prisma.task_groups.findUnique({
+            where: {
+                task_group_id: taskGroupId
+            },
+            select: {
+                task_group_id: true,
+                name: true,
+                icon: true,
+                background_url: true
+            }
+        });
+
+        return taskGroup;
+    }
+
     async getTaskGroupTasks(taskGroupId: string) {
         await checkTaskGroup(taskGroupId);
 
@@ -51,7 +67,7 @@ class TaskGroupService {
         return result;
     }
 
-    async createTaskGroup(userId: string, name: string, icon: string) { 
+    async createTaskGroup(userId: string, name: string, icon: string) {
         const taskGroup = await prisma.task_groups.create({
             data: {
                 name: name,

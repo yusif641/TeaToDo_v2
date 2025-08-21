@@ -5,6 +5,11 @@
     height: 16px;
     cursor: pointer;
     z-index: 1000;
+    left: 25px;
+}
+
+.checkbox.marked + div::before {
+    outline: 2px solid #ffbb6ddd;
 }
 
 .checkbox + div {
@@ -21,7 +26,7 @@
     width: 16px;
     height: 16px;
     outline: 2px solid #aaa;
-    background: #0A0A0A;
+    background: #121212;
 }
 
 .checkbox:checked + div::before {

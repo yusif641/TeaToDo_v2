@@ -1,4 +1,4 @@
-import { type TaskGroupResponce } from "./api/task-group-api";
+import { type TaskGroupResponce, type TaskGroupTasksResponce } from "./api/task-group-api";
 import { useTaskGroups } from "./hooks/useTaskGroups";
 import { useTaskGroupTasks } from "./hooks/useTaskGroupTasks";
 import { useSelectedTaskGroup } from "./hooks/useSelectedTaskGroup";
@@ -23,5 +23,6 @@ export {
     useCreateTaskGroup,
     useDeleteTaskGroup,
     useUpdateTaskGroupIcon,
-    useUpdateTaskGroupName
+    useUpdateTaskGroupName,
+    type TaskGroupTasksResponce
 };

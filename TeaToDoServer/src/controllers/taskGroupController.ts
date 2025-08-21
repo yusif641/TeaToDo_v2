@@ -16,6 +16,17 @@ const taskGroupController = {
         }
     },
 
+    async getTaskGroupById(req: Request<{ id: string }>, res: Response, next: NextFunction) {
+        try {
+            const taskGroupId = req.params.id;
+            const data = await TaskGroupService.getTaskGroupById(taskGroupId);
+
+            res.status(200).json(data);
+        } catch (error) {
+            next(error);
+        }
+    },
+
     async getTaskGroupTasks(req: Request<{ id: string }>, res: Response, next: NextFunction) {
         try {
             const taskGroupId = req.params.id;
