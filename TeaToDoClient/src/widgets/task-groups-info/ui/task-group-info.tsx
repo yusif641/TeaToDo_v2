@@ -5,6 +5,8 @@ import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/shared/components/ui/button';
 import { HOST_URL } from '@/shared/utils/constants';
 import CreateTaskInput from './create-task-input';
+import Quote from '@/entities/quote/ui/quote-ui';
+import type { QuoteReponce } from '@/entities/quote';
 const TaskGroupInfo: React.FC = () => {
     const taskGroupId = useTaskGroupStore(useShallow(state => state.selectedTaskGroupId));
 
@@ -63,9 +65,14 @@ const TaskGroupInfo: React.FC = () => {
                     </div>
                     {tasksData && (
                         <div className='-translate-y-4 mb-6'>
-                            {tasksData.map(task => (
-                                <Task state={(task as TaskResponce).state} text={task.text} taskId={(task as TaskResponce).task_id} />
-                            ))}
+                            {tasksData.map(task => {
+                                switch (task.type) {
+                                    case "task":
+                                        return <Task state={(task as TaskResponce).state} text={task.text} taskId={(task as TaskResponce).task_id} />
+                                    case "quote":
+                                        return <Quote text={task.text} quoteId={(task as QuoteReponce).quote_id} />
+                                }
+                            })}
                         </div>
                     )}
                     <CreateTaskInput />

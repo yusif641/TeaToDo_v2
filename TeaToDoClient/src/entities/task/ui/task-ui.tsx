@@ -56,8 +56,8 @@ const Task: React.FC<TaskProps> = ({ text, taskId, state }) => {
                 taskId,
                 text
             })
-        }, 1200)
-        , [])
+        }, 700), []
+    )
 
     const handleSetState = (updateState: TaskState) => {
         let newState: TaskState = state === updateState ? "inProgress" : updateState;
@@ -92,12 +92,6 @@ const Task: React.FC<TaskProps> = ({ text, taskId, state }) => {
                 <div className="py-3">
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]" onClick={() => handleSetState("completed")}>Mark as completed</div>
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]" onClick={() => handleSetState("marked")}>Mark</div>
-                </div>
-                <div className="w-full h-[1px] bg-[#666] opacity-[0.3]"></div>
-                <div className="py-3">
-                    <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]">Create full task</div>
-                    <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]">Create quote</div>
-                    <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]">Create thought</div>
                 </div>
                 <div className="w-full h-[1px] bg-[#666] opacity-[0.3]"></div>
                 <div className="py-3">
