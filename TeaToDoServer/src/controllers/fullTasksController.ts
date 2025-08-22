@@ -43,13 +43,14 @@ const fullTasksController = {
         try {
             const fullTaskId = req.params.id;
             const data: FullTaskState = req.body;
+            
             const updatedFullTask = await FullTasksService.updateFullTaskState(fullTaskId, data.state);
 
             res.status(200).json(updatedFullTask);
         } catch (error) {
             next(error);
         }
-    },
+    }, 
 
     async deleteFullTask(req: Request<{ id: string }>, res: Response, next: NextFunction) {
         try {

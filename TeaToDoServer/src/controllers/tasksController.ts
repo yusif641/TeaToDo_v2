@@ -48,7 +48,7 @@ const tasksController = {
         } catch (error) {
             next(error);
         }
-    }
+    } 
 };
 
 export default tasksController;

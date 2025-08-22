@@ -7,6 +7,7 @@ import { HOST_URL } from '@/shared/utils/constants';
 import CreateTaskInput from './create-task-input';
 import Quote from '@/entities/quote/ui/quote-ui';
 import type { QuoteReponce } from '@/entities/quote';
+import { FullTask, type FullTaskResponce } from '@/entities/full-task';
 const TaskGroupInfo: React.FC = () => {
     const taskGroupId = useTaskGroupStore(useShallow(state => state.selectedTaskGroupId));
 
@@ -71,6 +72,13 @@ const TaskGroupInfo: React.FC = () => {
                                         return <Task state={(task as TaskResponce).state} text={task.text} taskId={(task as TaskResponce).task_id} />
                                     case "quote":
                                         return <Quote text={task.text} quoteId={(task as QuoteReponce).quote_id} />
+                                    case "full_task":
+                                        return <FullTask 
+                                            state={(task as FullTaskResponce).state} 
+                                            name={(task as FullTaskResponce).name} 
+                                            text={task.text} 
+                                            fullTaskId={(task as FullTaskResponce).full_task_id} 
+                                        />
                                 }
                             })}
                         </div>

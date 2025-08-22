@@ -24,5 +24,5 @@ export const tasksApi = {
     },
     changeTaskText: ({ taskId, text }: { taskId: string, text: string }) => {
         return $api.patch<TaskResponce>(`${TASK_TEXT_ENDPOINT}/${taskId}`, { text });
-    }
+    },
 }
