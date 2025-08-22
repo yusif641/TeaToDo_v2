@@ -8,6 +8,7 @@ import CreateTaskInput from './create-task-input';
 import Quote from '@/entities/quote/ui/quote-ui';
 import type { QuoteReponce } from '@/entities/quote';
 import { FullTask, type FullTaskResponce } from '@/entities/full-task';
+import { Thought, type ThoughtResponce } from '@/entities/thought';
 const TaskGroupInfo: React.FC = () => {
     const taskGroupId = useTaskGroupStore(useShallow(state => state.selectedTaskGroupId));
 
@@ -73,11 +74,17 @@ const TaskGroupInfo: React.FC = () => {
                                     case "quote":
                                         return <Quote text={task.text} quoteId={(task as QuoteReponce).quote_id} />
                                     case "full_task":
-                                        return <FullTask 
-                                            state={(task as FullTaskResponce).state} 
-                                            name={(task as FullTaskResponce).name} 
-                                            text={task.text} 
-                                            fullTaskId={(task as FullTaskResponce).full_task_id} 
+                                        return <FullTask
+                                            state={(task as FullTaskResponce).state}
+                                            name={(task as FullTaskResponce).name}
+                                            text={task.text}
+                                            fullTaskId={(task as FullTaskResponce).full_task_id}
+                                        />
+                                    case "thought":
+                                        return <Thought
+                                            emoji={(task as ThoughtResponce).emoji}
+                                            text={task.text}
+                                            thoughtId={(task as ThoughtResponce).thought_id}
                                         />
                                 }
                             })}

@@ -2,6 +2,7 @@ import { useCreateFullTask } from '@/entities/full-task';
 import { useCreateQuote } from '@/entities/quote';
 import { useCreateTask } from '@/entities/task';
 import { useTaskGroupStore } from '@/entities/task-group';
+import { useCreateThought } from '@/entities/thought';
 import { Input } from '@/shared/components/ui/input'
 import { cn } from '@/shared/lib/utils';
 import React, { useEffect, useRef, useState, type KeyboardEvent } from 'react'
@@ -18,6 +19,7 @@ const CreateTaskInput: React.FC = () => {
     const { createTask } = useCreateTask(taskGroupId!);
     const { createFullTask } = useCreateFullTask(taskGroupId!);
     const { createQuote } = useCreateQuote(taskGroupId!);
+    const { createThought } = useCreateThought(taskGroupId!);
 
     useEffect(() => {
         const handleClickOutside = (event: React.TouchEvent | MouseEvent) => {
@@ -63,6 +65,16 @@ const CreateTaskInput: React.FC = () => {
         setOpenDropdown(false);
     }
 
+    const handleCreateThought = () => {
+        createThought({
+            taskGroupId: taskGroupId!,
+            emoji: "💡",
+            text: "Write thought text here"
+        });
+
+        setOpenDropdown(false);
+    }
+
     return (
         <div className="flex gap-3 items-center w-full max-w-130 -translate-y-4 -translate-x-7 hover:[&_span]:opacity-100 pb-10">
             <span className='opacity-0 w-3 cursor-pointer transition-all duration-200' onClick={() => setOpenDropdown(true)}>
@@ -89,7 +101,7 @@ const CreateTaskInput: React.FC = () => {
                 <div className="py-3">
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]" onClick={handleCreateFullTask}>Full task</div>
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]" onClick={handleCreateQuote}>Quote</div>
-                    <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]">Thought</div>
+                    <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663]" onClick={handleCreateThought}>Thought</div>
                 </div>
             </div>
         </div>
