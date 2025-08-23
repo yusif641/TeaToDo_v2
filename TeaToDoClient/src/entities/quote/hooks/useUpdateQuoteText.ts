@@ -20,9 +20,8 @@ export const useUpdateQuoteText = (selectedId: string) => {
                 [taskGroupApi.baseKey, "tasks", selectedId],
                 () => {
                     const newData = previousNotes.data?.map(quote => (quote as QuoteReponce).quote_id === params.quoteId ? { ...quote, text: params.text } : quote);
-                    previousNotes.data = newData;
 
-                    return previousNotes;
+                    return { ...previousNotes, data: newData };
                 }
             );
 

@@ -16,7 +16,11 @@ export const useUpdateTaskGroupIcon = () => {
 
             queryClient.setQueryData(
                 [taskGroupApi.baseKey],
-                () => previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, icon: params.icon } : taskGroup)
+                () => {
+                    const newData = previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, icon: params.icon } : taskGroup)
+
+                    return { ...previosTaskGroups, data: newData }
+                }
             );
 
             return { previosTaskGroups }

@@ -20,9 +20,8 @@ export const useDeleteFullTask = (selectedId: string) => {
                     [taskGroupApi.baseKey, "tasks", selectedId],
                     () => {
                         const newData = notes.data.filter(item => (item as FullTaskResponce).full_task_id !== fullTaskId).reverse()
-                        notes.data = newData;
-
-                        return notes;
+                        
+                        return { ...notes, data: newData };
                     }
                 );
             }

@@ -19,9 +19,8 @@ export const useUpdateTaskText = (selectedId: string) => {
                 [taskGroupApi.baseKey, "tasks", selectedId],
                 () => {
                     const newData = previousTasks.data?.map(task => (task as TaskResponce).task_id === params.taskId ? { ...task, text: params.text } : task);
-                    previousTasks.data = newData;
 
-                    return previousTasks;
+                    return { ...previousTasks, data: newData };
                 }
             );
 

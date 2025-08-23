@@ -42,6 +42,7 @@ const CreateTaskInput: React.FC = () => {
         });
 
         setOpenDropdown(false);
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     const handleCreateTask = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -52,6 +53,7 @@ const CreateTaskInput: React.FC = () => {
             })
 
             setTaskText("");
+            window.scrollTo(0, document.body.scrollHeight);
         }
     }
 
@@ -63,6 +65,7 @@ const CreateTaskInput: React.FC = () => {
         });
 
         setOpenDropdown(false);
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     const handleCreateThought = () => {
@@ -73,6 +76,7 @@ const CreateTaskInput: React.FC = () => {
         });
 
         setOpenDropdown(false);
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     return (

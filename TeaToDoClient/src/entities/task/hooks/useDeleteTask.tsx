@@ -12,20 +12,21 @@ export const useDeleteTask = (selectedId: string) => {
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [taskGroupApi.baseKey, "tasks", selectedId] });
         },
-        onSuccess: (_, taskId) => {
+        onMutate: async (taskId) => {
+            await queryClient.cancelQueries({ queryKey: [tasksApi.baseKey] });
+
             const tasks: AxiosResponse<TaskGroupTasksResponce> = queryClient.getQueryData([taskGroupApi.baseKey, "tasks", selectedId])!;
 
-            if (tasks) {
-                queryClient.setQueryData(
-                    [taskGroupApi.baseKey, "tasks", selectedId],
-                    () => {
-                        const newData = tasks.data.filter(item => (item as TaskResponce).task_id !== taskId).reverse()
-                        tasks.data = newData;
+            queryClient.setQueryData(
+                [taskGroupApi.baseKey, "tasks", selectedId],
+                () => {
+                    const newData = tasks.data.filter(item => (item as TaskResponce).task_id !== taskId).reverse()
 
-                        return tasks;
-                    }
-                );
-            }
+                    return { ...tasks, data: newData };
+                }
+            );
+
+            return { tasks }
         },
         onError: (error) => {
             const data = (error as ErrorResponse).response.data;

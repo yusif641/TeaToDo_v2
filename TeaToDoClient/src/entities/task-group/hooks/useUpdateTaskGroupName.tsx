@@ -16,7 +16,11 @@ export const useUpdateTaskGroupName = () => {
 
             queryClient.setQueryData(
                 [taskGroupApi.baseKey],
-                () => previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, name: params.name } : taskGroup)
+                () => {
+                    const newData = previosTaskGroups.data?.map(taskGroup => taskGroup.task_group_id === params.taskGroupId ? { ...taskGroup, name: params.name } : taskGroup)
+
+                    return { ...previosTaskGroups, data: newData }
+                }
             );
 
             return { previosTaskGroups }

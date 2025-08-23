@@ -20,9 +20,8 @@ export const useDeleteThought = (selectedId: string) => {
                     [taskGroupApi.baseKey, "tasks", selectedId],
                     () => {
                         const newData = notes.data.filter(item => (item as ThoughtResponce).thought_id !== thoughtId).reverse()
-                        notes.data = newData;
 
-                        return notes;
+                        return { ...notes, data: newData };
                     }
                 );
             }

@@ -5,6 +5,7 @@ import lines from "@/shared/assets/gifs/lines.gif";
 import gsap from "gsap";
 import SplitText from 'gsap/SplitText';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(SplitText, ScrollTrigger);
@@ -63,10 +64,10 @@ const Home: React.FC = () => {
                     Create and organize tasks. Group related tasks together. Keep everything clear and
                     manageable in one central place. Start building your task lists now!
                 </p>
-                <div 
+                <Link to={"/home"} 
                     className='text-lg p-4 border-1 inline rounded-sm cursor-pointer border-white hover:bg-white hover:text-black transition duration-300'>
                         Get started
-                </div>
+                </Link>
             </div>
         </section>
     )

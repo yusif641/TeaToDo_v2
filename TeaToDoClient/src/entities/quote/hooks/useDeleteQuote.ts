@@ -20,9 +20,8 @@ export const useDeleteQuote = (selectedId: string) => {
                     [taskGroupApi.baseKey, "tasks", selectedId],
                     () => {
                         const newData = notes.data.filter(item => (item as QuoteReponce).quote_id !== quoteId).reverse()
-                        notes.data = newData;
 
-                        return notes;
+                        return { ...notes, data: newData };
                     }
                 );
             }

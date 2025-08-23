@@ -161,6 +161,8 @@ class TaskGroupService {
             }
         });
 
+        if (deletedTaskGroup.background_url) unlinkSync(deletedTaskGroup.background_url);
+
         const data = new TaskGroupDto(deletedTaskGroup);
 
         return data;
