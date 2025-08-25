@@ -50,8 +50,8 @@ const Features: React.FC = () => {
         <section className="features" id='features'>
             <div className="max-w-[1400px] px-[15px] mx-auto py-20">
                 <h2 className='text-4xl mb-10 text-center'>Features</h2>
-                <div className="flex justify-between items-stretch">
-                    <div className="item-1 flex flex-col justify-between">
+                <div className="flex justify-between items-stretch gap-20 flex-wrap">
+                    <div className="item-1 flex flex-col justify-between mx-auto">
                         <div className="mb-4 max-w-[300px]">
                             <img src={todo} className="w-full" alt="" />
                         </div>
@@ -62,7 +62,7 @@ const Features: React.FC = () => {
                         </p>
                         <Link to={"/home"} className='text-lg text-center p-4 border-1 rounded-sm border-white hover:bg-white hover:text-black transition duration-300 cursor-pointer'>Get started</Link>
                     </div>
-                    <div className="item-2 flex flex-col justify-between">
+                    <div className="item-2 flex flex-col justify-between mx-auto">
                         <div className="mb-4 max-w-[300px]">
                             <img src={lamp} className="w-full" alt="" />
                         </div>
@@ -72,7 +72,7 @@ const Features: React.FC = () => {
                         </p>
                         <Link to={"/home"} className='text-lg text-center p-4 border-1 rounded-sm border-white hover:bg-white hover:text-black transition duration-300 cursor-pointer'>Get started</Link>
                     </div>
-                    <div className="item-3 flex flex-col justify-between">
+                    <div className="item-3 flex flex-col justify-between mx-auto">
                         <div className="mb-4 max-w-[300px]">
                             <img src={stars} className="w-full" alt="" />
                         </div>

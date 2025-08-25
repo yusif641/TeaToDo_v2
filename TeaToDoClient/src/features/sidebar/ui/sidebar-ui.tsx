@@ -65,12 +65,13 @@ const HomeSidebar: React.FC = () => {
                 </div>
                 <Dialog open={openCreateDialog} onOpenChange={() => setOpenCreateDialog((false))}>
                     <DialogContent className="sm:max-w-[425px]">
-                        <div className="absolute top-0 left-0 -translate-x-90 -translate-y-25" ref={emojiRef}>
+                        <div className="fixed top-0 left-0 -translate-x-90 -translate-y-25 max-xl:translate-x-0 max-xl:left-30 max-sm:left-[50vw] max-sm:-translate-x-[55%] z-20" ref={emojiRef}>
                             <EmojiPicker
                                 theme={Theme.DARK}
                                 open={emojiPickerOpen}
                                 onEmojiClick={handleAddEmoji}
                                 autoFocusSearch={false}
+                                width={300}
                             />
                         </div>
                         <DialogHeader className='mb-3'>

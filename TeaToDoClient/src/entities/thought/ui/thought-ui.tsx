@@ -61,7 +61,7 @@ const Thought: React.FC<{ emoji: string, text: string, thoughtId: string }> = ({
         }, 700), []
     )
 
-    const handleUpdateIcon = (emoji: EmojiClickData) => { 
+    const handleUpdateIcon = (emoji: EmojiClickData) => {
         updateThoughtIcon({
             thoughtId,
             emoji: emoji.emoji
@@ -71,37 +71,12 @@ const Thought: React.FC<{ emoji: string, text: string, thoughtId: string }> = ({
     }
 
     return (
-        <div className="mb-3 hover:[&_span]:opacity-100 relative flex items-start -translate-x-6 max-md:translate-x-0 -z-2">
-            <span className="flex items-center mt-2 gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
-                <FaGripVertical size={13} className='cursor-pointer' />
-            </span>
-            <div className="bg-[#171717] p-3 rounded-sm w-full relative">
-                <div
-                    className={cn(
-                        "hover:bg-[#44444421] rounded-sm p-1 hover:border-1 w-8 flex items-center",
-                        "justify-center h-8 cursor-pointer mb-2 text-xl -ml-1 transition-all duration-100"
-                    )}
-                    onClick={() => setEmojiPickerOpen(true)}
-                >{emoji}</div>
-                <div className="absolute bottom-0 -left-2 -translate-x-full z-20" ref={emojiRef}>
-                    <EmojiPicker
-                        theme={Theme.DARK}
-                        open={emojiPickerOpen}
-                        onEmojiClick={handleUpdateIcon}
-                        autoFocusSearch={false}
-                    />
-                </div>
-                <AutosizeTextarea
-                    value={thoughtText}
-                    onChange={handleUpdateText}
-                    className={`border-none max-sm:text-sm`}
-                />
-            </div>
+        <div className="relative">
             <div
                 className={cn(
                     `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full`,
                     `z-40 border-neutral-800 border-1 opacity-0 transition-all duration-200 max-2xl:translate-x-0`,
-                    `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
+                    `${openDropdown ? "opacity-100 pointer-events-auto block" : "opacity-0 pointer-events-none hidden z-20"}`
                 )}
                 ref={dropdownRef}
             >
@@ -109,6 +84,34 @@ const Thought: React.FC<{ emoji: string, text: string, thoughtId: string }> = ({
                 <div className="w-full h-[1px] bg-[#666] opacity-[0.3]"></div>
                 <div className="py-3">
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663] text-[#ff5269dd]" onClick={handleDeleteThought}>Delete</div>
+                </div>
+            </div>
+            <div className="mb-3 hover:[&_span]:opacity-100 relative flex items-start -translate-x-6 max-md:-translate-x-2">
+                <span className="flex items-center mt-2 gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
+                    <FaGripVertical size={13} className='cursor-pointer' />
+                </span>
+                <div className="bg-[#171717] p-3 rounded-sm w-full relative">
+                    <div
+                        className={cn(
+                            "hover:bg-[#44444421] rounded-sm p-1 hover:border-1 w-8 flex items-center",
+                            "justify-center h-8 cursor-pointer mb-2 text-xl -ml-1 transition-all duration-100"
+                        )}
+                        onClick={() => setEmojiPickerOpen(true)}
+                    >{emoji}</div>
+                    <div className="absolute bottom-0 -left-2 -translate-x-[50%] z-20 max-2xl:-translate-x-0 max-sm:-left-8" ref={emojiRef}>
+                        <EmojiPicker
+                            theme={Theme.DARK}
+                            open={emojiPickerOpen}
+                            onEmojiClick={handleUpdateIcon}
+                            autoFocusSearch={false}
+                            width={300}
+                        />
+                    </div>
+                    <AutosizeTextarea
+                        value={thoughtText}
+                        onChange={handleUpdateText}
+                        className={`border-none max-sm:text-sm`}
+                    />
                 </div>
             </div>
         </div>

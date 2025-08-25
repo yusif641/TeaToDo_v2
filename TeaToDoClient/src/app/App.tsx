@@ -1,5 +1,4 @@
 import type React from "react"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, Routes } from "react-router-dom";
 import { NotFound } from "@/pages/not-found";
 import { PrivateVerify } from "@/pages/verify";
@@ -50,7 +49,6 @@ const App: React.FC = () => {
         <Route path="/home" element={<PrivateHome />} />
         <Route path="/" element={<Welocome />} />
       </Routes>
-      <ReactQueryDevtools />
     </div>
   )
 }

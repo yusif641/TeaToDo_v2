@@ -66,7 +66,7 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
     }
 
     const handleRefetch = (event: React.MouseEvent) => {
-        if (!optionsRef.current?.contains(event.target as Node)) {
+        if (!optionsRef.current?.contains(event.target as Node) && !editMode) {
             setTaskGroupSelectedId(taskGroupId);
             refetchTasks();
 
@@ -107,12 +107,13 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
                         ? (
                             <div className="flex gap-2 items-center" ref={editRef}>
                                 <div className="bg-[#44444421] rounded-sm p-1 border-1 w-8 flex items-center justify-center h-7 cursor-pointer" onClick={() => setEmojiPickerOpen(true)} ref={iconRef}>{icon}</div>
-                                <div className="fixed translate-x-[85%] max-sm:translate-x-0 top-20 z-20" ref={emojiRef}>
+                                <div className="fixed translate-x-[100%] max-sm:translate-x-0 top-20 z-20" ref={emojiRef}>
                                     <EmojiPicker
                                         theme={Theme.DARK}
                                         open={emojiPickerOpen}
                                         onEmojiClick={handleUpdateIcon}
                                         autoFocusSearch={false}
+                                        width={300}
                                     />
                                 </div>
                                 <Input id="sheet-nickname" defaultValue={name} onChange={(e) => setEditName(e.target.value)} className='h-7 focus:border-none focus:outline-0 rounded-sm focus-visible:ring-[1px]' autoFocus={true} />

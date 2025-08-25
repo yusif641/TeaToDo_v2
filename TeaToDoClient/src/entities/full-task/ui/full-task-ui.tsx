@@ -90,12 +90,12 @@ const FullTask: React.FC<FullTaskProps> = ({ name, text, state, fullTaskId }) =>
     )
 
     return (
-        <div className="mb-3 hover:[&_span]:opacity-100 relative flex items-start -translate-x-6 max-md:translate-x-0">
+        <div className='relative'>
             <div
                 className={cn(
                     `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full`,
-                    `border-neutral-800 border-1 opacity-0 transition-all duration-200 max-2xl:translate-x-0`,
-                    `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
+                    `z-40 border-neutral-800 border-1 opacity-0 transition-all duration-200 max-2xl:translate-x-0`,
+                    `${openDropdown ? "opacity-100 pointer-events-auto block" : "opacity-0 pointer-events-none hidden z-20"}`
                 )}
                 ref={dropdownRef}
             >
@@ -110,20 +110,22 @@ const FullTask: React.FC<FullTaskProps> = ({ name, text, state, fullTaskId }) =>
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663] text-[#ff5269dd]" onClick={handleDeleteFullTask}>Delete</div>
                 </div>
             </div>
-            <span className="flex items-center mt-1 gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
-                <FaGripVertical size={13} className='cursor-pointer' />
-            </span>
-            <input type="checkbox" className={`checkbox ${state === "marked" && "marked"}`} checked={state === "completed"} onChange={() => handleSetState("completed")} />
-            <div className="w-full">
-                <div className="bg-[#171717] p-3 rounded-sm fullTask -mt-1 w-full">
-                    <div className='w-full'>
-                        <AutosizeTextarea value={taskName} onChange={handleUpdateName} className={`w-full text-md mb-3 focus:border-none outline-none ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`} />
+            <div className="mb-3 hover:[&_span]:opacity-100 flex items-start -translate-x-6 max-md:-translate-x-2 relative">
+                <span className="flex items-center mt-1 gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
+                    <FaGripVertical size={13} className='cursor-pointer' />
+                </span>
+                <input type="checkbox" className={`checkbox ${state === "marked" && "marked"}`} checked={state === "completed"} onChange={() => handleSetState("completed")} />
+                <div className="w-full relative">
+                    <div className="bg-[#171717] p-3 rounded-sm fullTask -mt-1 w-full">
+                        <div className='w-full'>
+                            <AutosizeTextarea value={taskName} onChange={handleUpdateName} className={`w-full text-md mb-3 focus:border-none outline-none ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`} />
+                        </div>
+                        <AutosizeTextarea
+                            value={taskText}
+                            onChange={handleUpdateText}
+                            className={`border-none text-sm ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`}
+                        />
                     </div>
-                    <AutosizeTextarea
-                        value={taskText}
-                        onChange={handleUpdateText}
-                        className={`border-none text-sm ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`}
-                    />
                 </div>
             </div>
         </div>

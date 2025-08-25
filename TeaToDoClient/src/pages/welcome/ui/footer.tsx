@@ -5,8 +5,8 @@ import { FaDiscord, FaTelegram } from 'react-icons/fa';
 const Footer: React.FC = () => {
     return (
         <footer className="footer border-t-2 border-accent py-15">
-            <div className="_container flex justify-between">
-                <div className="mx-auto">
+            <div className="_container flex justify-between gap-10 flex-wrap max-sm:flex-col max-sm:text-center">
+                <div className="mx-auto max-sm:text-center">
                     <div className="flex items-center gap-4">
                         <img className='w-8 h-8 -mb-[-10px]' src={logo} alt="" />
                         <div className="text-xl italic font-bold">TeaToDo</div>
@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
                     <li><a href="https://youtu.be/80gZzF0E-c4?si=UnrB05v6xwqQ285F" className='hover:underline'>Policy & Privacy</a></li>
                     <li><a href="" className='hover:underline'>Terms & Conditions</a></li>
                     <li><a href="https://youtu.be/dQw4w9WgXcQ?si=nIMEBr06_4jQpOCm" className='hover:underline'>Stupid Video</a></li>
-                    <li className='flex gap-5 mt-2'>
+                    <li className='flex gap-5 mt-2 max-sm:justify-center'>
                         <a href="https://t.me/BGLegendBG">
                             <FaTelegram size={25} />
                         </a>

@@ -71,19 +71,12 @@ const Task: React.FC<TaskProps> = ({ text, taskId, state }) => {
     }
 
     return (
-        <div className="flex items-center mb-3 -translate-x-6 hover:[&_span]:opacity-100 relative max-md:translate-x-0">
-            <span className="flex items-center gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
-                <FaGripVertical size={13} className='cursor-pointer' />
-            </span>
-            <input type="checkbox" className={`checkbox ${state === "marked" && "marked"}`} checked={state === "completed"} onChange={() => handleSetState("completed")} />
-            <div className='w-full'>
-                <input value={taskText} onChange={handleUpdateText} className={`w-full text-md focus:border-none outline-none ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`} />
-            </div>
+        <div className="relative">
             <div
                 className={cn(
                     `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full max-2xl:translate-x-0 z-20`,
                     `z-20 border-neutral-800 border-1 opacity-0 transition-all duration-200`,
-                    `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
+                    `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none z-20"}`
                 )}
                 ref={dropdownRef}
             >
@@ -96,6 +89,15 @@ const Task: React.FC<TaskProps> = ({ text, taskId, state }) => {
                 <div className="w-full h-[1px] bg-[#666] opacity-[0.3]"></div>
                 <div className="py-3">
                     <div className="cursor-pointer px-2 mx-1 py-1 rounded-sm hover:bg-[#46464663] text-[#ff5269dd]" onClick={handleDeleteTask}>Delete</div>
+                </div>
+            </div>
+            <div className="flex items-center mb-3 -translate-x-6 hover:[&_span]:opacity-100 relative max-md:-translate-x-2">
+                <span className="flex items-center gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
+                    <FaGripVertical size={13} className='cursor-pointer' />
+                </span>
+                <input type="checkbox" className={`checkbox ${state === "marked" && "marked"}`} checked={state === "completed"} onChange={() => handleSetState("completed")} />
+                <div className='w-full'>
+                    <input value={taskText} onChange={handleUpdateText} className={`w-full text-md focus:border-none outline-none ${state === "completed" && "line-through italic"} ${state === "marked" && "text-[#ffbb6ddd] font-bold"}`} />
                 </div>
             </div>
         </div>
