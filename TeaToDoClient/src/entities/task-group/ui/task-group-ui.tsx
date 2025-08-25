@@ -1,4 +1,4 @@
-import { SidebarMenuButton, SidebarMenuItem } from '@/shared/components/ui/sidebar';
+import { SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/shared/components/ui/sidebar';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaEllipsisH, FaSave } from 'react-icons/fa';
 import { useTaskGroupStore } from '../models/task-group-store';
@@ -31,6 +31,8 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
     const { deleteTaskGroup } = useDeleteTaskGroup();
     const { updateTaskGroupIcon } = useUpdateTaskGroupIcon();
     const { updateTaskGroupName } = useUpdateTaskGroupName();
+
+    const { setOpenMobile } = useSidebar();
 
     useEffect(() => {
         const handleClickOutside = (event: React.TouchEvent | MouseEvent) => {
@@ -67,6 +69,10 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
         if (!optionsRef.current?.contains(event.target as Node)) {
             setTaskGroupSelectedId(taskGroupId);
             refetchTasks();
+
+            if (window.innerWidth < 768) {
+                setOpenMobile(false);
+            }
         }
     }
 
@@ -101,7 +107,7 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
                         ? (
                             <div className="flex gap-2 items-center" ref={editRef}>
                                 <div className="bg-[#44444421] rounded-sm p-1 border-1 w-8 flex items-center justify-center h-7 cursor-pointer" onClick={() => setEmojiPickerOpen(true)} ref={iconRef}>{icon}</div>
-                                <div className="absolute top-0 -right-3 translate-x-full z-20" ref={emojiRef}>
+                                <div className="fixed translate-x-[85%] max-sm:translate-x-0 top-20 z-20" ref={emojiRef}>
                                     <EmojiPicker
                                         theme={Theme.DARK}
                                         open={emojiPickerOpen}
@@ -114,7 +120,7 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
                         ) : (
                             <div className="flex gap-2 items-center">
                                 <span>{icon}</span>
-                                <span>{name}</span>
+                                <span className='text-ellipsis overflow-hidden whitespace-nowrap w-50'>{name}</span>
                             </div>
                         )
                     }
@@ -124,12 +130,12 @@ const TaskGroup: React.FC<{ icon: string, name: string, taskGroupId: string }> =
                                 <FaSave />
                             </div>
                         ) : (
-                            <span className='hidden cursor-pointer h-6 w-6 items-center justify-center' ref={optionsRef} onClick={() => setOpenDropdown(true)}><FaEllipsisH /></span>
+                            <span className='hidden max-md:flex cursor-pointer h-6 w-6 items-center justify-center' ref={optionsRef} onClick={() => setOpenDropdown(true)}><FaEllipsisH /></span>
                         )
                     }
                 </div>
             </SidebarMenuButton>
-            <div className={`bg-[#131313] rounded-sm w-56 absolute -right-3 top-0 translate-x-full z-20 ${openDropdown ? "" : "hidden"}`} ref={dropdownRef}>
+            <div className={`bg-[#131313] rounded-sm w-56 fixed translate-x-[138%] max-md:translate-x-[128%] max-sm:translate-x-0 top-20 border-1 border-neutral-800 z-20 ${openDropdown ? "" : "hidden"}`} ref={dropdownRef}>
                 <div className="p-3 flex gap-2 font-medium">
                     <span>{icon}</span>
                     <span>{name}</span>

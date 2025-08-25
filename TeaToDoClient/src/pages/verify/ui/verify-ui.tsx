@@ -4,7 +4,7 @@ import { FaEnvelope } from "react-icons/fa";
 const Verify: React.FC = () => {
     return (
         <section className="w-screen h-screen flex justify-center items-center">
-            <div className="max-w-[400px] text-center rounded-sm border-1 p-7 border-[#989A99]">
+            <div className="max-w-[400px] text-center rounded-sm border-1 p-7 border-[#989A99] mx-3 max-sm:p-4">
                 <FaEnvelope size={70} className='m-auto mb-5' />
                 <h2 className='mb-5 text-xl font-medium]'>We've send an activation link to your email</h2>
                 <p>

@@ -6,7 +6,7 @@ import { useCreateThought } from '@/entities/thought';
 import { Input } from '@/shared/components/ui/input'
 import { cn } from '@/shared/lib/utils';
 import React, { useEffect, useRef, useState, type KeyboardEvent } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaCheck, FaPlus } from 'react-icons/fa'
 import { useShallow } from 'zustand/react/shallow';
 
 const CreateTaskInput: React.FC = () => {
@@ -57,6 +57,16 @@ const CreateTaskInput: React.FC = () => {
         }
     }
 
+    const handleCreateTaskByButton = () => {
+        createTask({
+            taskGroupId: taskGroupId!,
+            text: taskText
+        })
+
+        setTaskText("");
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
     const handleCreateFullTask = () => {
         createFullTask({
             taskGroupId: taskGroupId!,
@@ -80,8 +90,8 @@ const CreateTaskInput: React.FC = () => {
     }
 
     return (
-        <div className="flex gap-3 items-center w-full max-w-130 -translate-y-4 -translate-x-7 hover:[&_span]:opacity-100 pb-10">
-            <span className='opacity-0 w-3 cursor-pointer transition-all duration-200' onClick={() => setOpenDropdown(true)}>
+        <div className="flex gap-3 items-center w-full max-w-130 -translate-y-4 -translate-x-7 hover:[&_span]:opacity-100 pb-10 max-md:-translate-x-0">
+            <span className='opacity-0 w-3 cursor-pointer transition-all duration-200 max-md:opacity-100' onClick={() => setOpenDropdown(true)}>
                 <FaPlus size={13} className='' />
             </span>
             <Input
@@ -89,12 +99,13 @@ const CreateTaskInput: React.FC = () => {
                 onChange={(e) => setTaskText(e.target.value)}
                 onKeyDown={handleCreateTask}
                 placeholder='Write task text, then press enter'
-                className='border-none focus-visible:ring-none focus-visible:ring-[0px] focus:border-1 focus:border-neutral-800'
+                className='border-none focus-visible:ring-none focus-visible:ring-[0px] focus:border-1 focus:border-neutral-800 max-sm:text-sm'
                 autoFocus={true}
             />
+            <FaCheck className='cursor-pointer hidden max-md:block' onClick={handleCreateTaskByButton} />
             <div
                 className={cn(
-                    `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full`,
+                    `bg-[#131313] left-0 -translate-x-full max-2xl:translate-0 rounded-sm w-56 absolute bottom-10`,
                     `z-20 border-neutral-800 border-1 opacity-0 transition-all duration-200`,
                     `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
                 )}

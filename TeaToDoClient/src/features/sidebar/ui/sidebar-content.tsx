@@ -7,8 +7,8 @@ const SidebarContentUI: React.FC = () => {
     const { taskGroupsData, taskGroupsPending } = useTaskGroups();
 
     return (
-        <SidebarContent>
-            <SidebarGroup>
+        <SidebarContent className='scrollbar overflow-y-auto'>
+            <SidebarGroup className=''>
                 <SidebarGroupContent>
                     <SidebarMenu>
                         {taskGroupsPending && (

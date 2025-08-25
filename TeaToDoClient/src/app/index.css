@@ -135,6 +135,10 @@ body {
   color: #989A99;
 }
 
+.scrollbar {
+  scrollbar-width: none;
+}
+
 .wrap {
   overflow: hidden;
   display: -webkit-box;
@@ -145,6 +149,7 @@ body {
   -ms-flex-direction: column;
   flex-direction: column;
   min-height: 100%;
+  overflow: hidden;
 }
 
 @layer base {

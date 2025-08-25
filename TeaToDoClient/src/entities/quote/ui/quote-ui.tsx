@@ -52,17 +52,17 @@ const Quote: React.FC<{ text: string, quoteId: string }> = ({ text, quoteId }) =
     )
 
     return (
-        <div className="flex items-center mb-3 -translate-x-6 hover:[&_span]:opacity-100 relative">
-            <span className="flex items-center gap-2 mr-3 opacity-0 transition-all duration-200" onClick={() => setOpenDropdown(true)}>
+        <div className="flex items-center mb-3 -translate-x-6 hover:[&_span]:opacity-100 relative max-md:translate-x-0">
+            <span className="flex items-center gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
                 <FaGripVertical size={13} className='cursor-pointer' />
             </span>
-            <div className="py-2 italic border-l-5 w-full">
-                <AutosizeTextarea value={quoteText} onChange={handleUpdateText} className='pl-4 border-none' />
+            <div className="py-2 border-l-5 w-full">
+                <AutosizeTextarea value={quoteText} onChange={handleUpdateText} className='pl-4 border-none max-sm:text-sm' />
             </div>
             <div
                 className={cn(
                     `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full`,
-                    `z-20 border-neutral-800 border-1 opacity-0 transition-all duration-200`,
+                    `z-40 border-neutral-800 border-1 opacity-0 transition-all duration-200 max-2xl:translate-x-0`,
                     `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
                 )}
                 ref={dropdownRef}

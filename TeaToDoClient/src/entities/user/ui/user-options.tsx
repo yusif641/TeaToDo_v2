@@ -70,9 +70,9 @@ const UserOptions: React.FC<UserOptionProps> = ({ inputNickname, setNickname, us
             </div>
             <div className="grid gap-3">
                 <Label htmlFor="sheet-nickname">Nickname</Label>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 max-sm:flex-col">
                     <Input id="sheet-nickname" defaultValue={inputNickname || userNickname} onChange={(e) => setNickname(e.target.value)} />
-                    <Button className={`cursor-pointer ${isNicknamePending && "opacity-50"}`} onClick={updateUserNickname} disabled={isNicknamePending}>Save</Button>
+                    <Button className={`cursor-pointer max-sm:w-full ${isNicknamePending && "opacity-50"}`} onClick={updateUserNickname} disabled={isNicknamePending}>Save</Button>
                 </div>
             </div>
         </div>

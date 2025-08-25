@@ -66,7 +66,7 @@ export const AutosizeTextarea = React.forwardRef<AutosizeTextAreaRef, AutosizeTe
     ref: React.Ref<AutosizeTextAreaRef>,
   ) => {
     const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
-    const [triggerAutoSize, setTriggerAutoSize] = React.useState('');
+    const [triggerAutoSize, setTriggerAutoSize] = React.useState(' ');
 
     useAutosizeTextArea({
       textAreaRef,

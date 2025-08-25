@@ -22,9 +22,9 @@ const SignInForm: React.FC = () => {
     const { onSubmit, onErrorSubmit, isPending } = useLogin(checked);
 
     return (
-        <div className="w-[50vw] flex items-center justify-center border-1-2 border-[#989A99] h-screen relative">
+        <div className="w-[50vw] max-lg:w-full flex items-center justify-center border-1-2 border-[#989A99] h-screen relative">
             <ToastContainer theme='black' position='bottom-right' />
-            <Card className="w-full max-w-sm">
+            <Card className="w-full max-w-sm mx-2">
                 <CardHeader>
                     <CardTitle className='text-center text-lg'>Sign in on our website</CardTitle>
                     <CardDescription className='text-center'>

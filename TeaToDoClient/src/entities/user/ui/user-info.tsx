@@ -25,8 +25,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ avatar, nickname, email, openSheet 
                             <AvatarFallback className='rounded-lg w-13 h-13'>{nickname?.slice(0, 2)}</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col items-start">
-                            <span className='text-sm'>{nickname}</span>
-                            <span className='text-[12px] opacity-80'>{email}</span>
+                            <span className='text-sm text-ellipsis text-start overflow-hidden whitespace-nowrap w-40 max-md:w-35'>{nickname}</span>
+                            <span className='text-[12px] opacity-80 text-start text-ellipsis overflow-hidden whitespace-nowrap w-40 max-md:w-35'>{email}</span>
                         </div>
                     </div>
                     <BsChevronExpand size={18} />

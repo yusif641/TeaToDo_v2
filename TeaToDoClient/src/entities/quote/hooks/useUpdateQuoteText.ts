@@ -44,6 +44,7 @@ export const useUpdateQuoteText = (selectedId: string) => {
     });
 
     return {
-        updateQuoteText: updateQuoteTextMutation.mutate
+        updateQuoteText: updateQuoteTextMutation.mutate,
+        isQuotePending: updateQuoteTextMutation.isPending
     }
 }

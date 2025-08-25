@@ -71,8 +71,8 @@ const Thought: React.FC<{ emoji: string, text: string, thoughtId: string }> = ({
     }
 
     return (
-        <div className="mb-3 hover:[&_span]:opacity-100 relative flex items-start -translate-x-6">
-            <span className="flex items-center mt-2 gap-2 mr-3 opacity-0 transition-all duration-200" onClick={() => setOpenDropdown(true)}>
+        <div className="mb-3 hover:[&_span]:opacity-100 relative flex items-start -translate-x-6 max-md:translate-x-0 -z-2">
+            <span className="flex items-center mt-2 gap-2 mr-3 opacity-0 transition-all duration-200 max-md:opacity-100" onClick={() => setOpenDropdown(true)}>
                 <FaGripVertical size={13} className='cursor-pointer' />
             </span>
             <div className="bg-[#171717] p-3 rounded-sm w-full relative">
@@ -94,13 +94,13 @@ const Thought: React.FC<{ emoji: string, text: string, thoughtId: string }> = ({
                 <AutosizeTextarea
                     value={thoughtText}
                     onChange={handleUpdateText}
-                    className={`border-none`}
+                    className={`border-none max-sm:text-sm`}
                 />
             </div>
             <div
                 className={cn(
                     `bg-[#131313] -left-3 rounded-sm w-56 absolute -top-10 -translate-x-full`,
-                    `z-20 border-neutral-800 border-1 opacity-0 transition-all duration-200`,
+                    `z-40 border-neutral-800 border-1 opacity-0 transition-all duration-200 max-2xl:translate-x-0`,
                     `${openDropdown ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`
                 )}
                 ref={dropdownRef}

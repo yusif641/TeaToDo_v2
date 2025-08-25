@@ -41,18 +41,18 @@ const TaskGroupInfo: React.FC = () => {
 
     return (
         <div>
-            <div className="-z-3 w-full max-h-50 overflow-hidden">
+            <div className="-z-3 w-full h-50 max-sm:h-35 overflow-hidden">
                 {selectedTaskGroup?.background_url
                     ? (
-                        <div className="relative cursor-pointer hover:[&_div]:flex">
-                            <img src={`${HOST_URL}/${selectedTaskGroup?.background_url}`} className='w-full translate-y-[-50%]' alt="" />
-                            <div className="w-full h-50 bg-[#131313b9] absolute top-0 hidden items-center justify-center">
+                        <div className="relative cursor-pointer hover:[&_div]:flex h-50 max-sm:h-35">
+                            <img src={`${HOST_URL}/${selectedTaskGroup?.background_url}`} className='w-full h-full object-cover' alt="" />
+                            <div className="w-full h-50 max-sm:h-35 bg-[#131313b9] absolute top-0 hidden items-center justify-center">
                                 <Button className='cursor-pointer' onClick={handleRemoveBackground}>Remove Background</Button>
                             </div>
                         </div>
                     )
                     : (
-                        <div className="w-full bg-[#131313] h-50 flex items-center justify-center">
+                        <div className="w-full bg-[#131313] h-50 max-sm:h-35 flex items-center justify-center">
                             <Button variant="outline" className='cursor-pointer' onClick={selectFile}>Select Background</Button>
                             <input type="file" ref={fileInputRef} onChange={(e) => handleBackgroundUpdate(e)} className='hidden' name='avatar' accept='.png, .jpg, .jpeg, .svg, .webp' />
                         </div>
@@ -60,21 +60,22 @@ const TaskGroupInfo: React.FC = () => {
                 }
             </div>
             <div className="flex flex-col items-center">
-                <div className="w-200">
+                <div className="w-full max-w-200 px-10 max-sm:px-6">
                     <div className="-translate-y-8 mb-4">
-                        <div className='text-7xl -ml-4'>{selectedTaskGroup?.icon}</div>
-                        <div className='text-5xl -ml-2 font-bold mt-7'>{selectedTaskGroup?.name}</div>
+                        <div className='text-7xl -ml-4 max-sm:text-6xl'>{selectedTaskGroup?.icon}</div>
+                        <div className='text-5xl -ml-2 font-bold mt-7 max-sm:text-3xl'>{selectedTaskGroup?.name}</div>
                     </div>
                     {tasksData && (
                         <div className='-translate-y-4 mb-6'>
                             {tasksData.map(task => {
                                 switch (task.type) {
                                     case "task":
-                                        return <Task state={(task as TaskResponce).state} text={task.text} taskId={(task as TaskResponce).task_id} />
+                                        return <Task key={(task as TaskResponce).task_id} state={(task as TaskResponce).state} text={task.text} taskId={(task as TaskResponce).task_id} />
                                     case "quote":
-                                        return <Quote text={task.text} quoteId={(task as QuoteReponce).quote_id} />
+                                        return <Quote key={(task as QuoteReponce).quote_id} text={task.text} quoteId={(task as QuoteReponce).quote_id} />
                                     case "full_task":
                                         return <FullTask
+                                            key={(task as FullTaskResponce).full_task_id}
                                             state={(task as FullTaskResponce).state}
                                             name={(task as FullTaskResponce).name}
                                             text={task.text}
@@ -82,6 +83,7 @@ const TaskGroupInfo: React.FC = () => {
                                         />
                                     case "thought":
                                         return <Thought
+                                            key={(task as ThoughtResponce).thought_id}
                                             emoji={(task as ThoughtResponce).emoji}
                                             text={task.text}
                                             thoughtId={(task as ThoughtResponce).thought_id}
